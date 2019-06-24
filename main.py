@@ -36,7 +36,7 @@ def notify(frame):
     filename = 'frames/' + dt + ".png"
     cv2.imwrite(filename, frame)
 
-    os.system("python3 email.py")
+    os.system("python3 send-mail.py")
 
 while(True):
     ret, frame = cap.read()
