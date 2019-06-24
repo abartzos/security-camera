@@ -16,4 +16,3 @@ Keep in mind that you can use the same address for both the sender and the recei
 - open-cv for Python3
 
 The motion-detection algorithm was built by [Pavlos Makridis](https://github.com/PavlosMak/Motion_Detection)
-and was modified to its current state.

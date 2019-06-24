@@ -7,9 +7,10 @@ import cv2
 import numpy as np
 import datetime
 import subprocess as sp
-import sys 
+import sys
 
 credentials = [sys.argv[1],sys.argv[2],sys.argv[3]]
+
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 text = ""
