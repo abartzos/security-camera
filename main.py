@@ -6,31 +6,10 @@ You can do this from here: https://myaccount.google.com/lesssecureapps?pli=1
 import cv2
 import numpy as np
 import datetime
+import subprocess as sp
+import sys 
 
-import smtplib
-
-def notify(frame,sender_email_id,sender_email_id_password,receiver_email_id):
-    '''
-    saves the moving frame and
-    (notifies the user) -> not yet
-
-    arguments: 
-        frame : the photo to be saved
-        sender_email_id : The email id from which the notification email will be sent (e.g example_sender@gmail.com).
-        sender_email_id_password: The password of the sender's email id. 
-        receiver_email_id: The email id of the receiver of the notification email (e.g example_receiver@gmail.com).
-    '''
-
-    #Notifies user via email. Current method does NOT support attachments and makes video feed lag. 
-    s = smtplib.SMTP('smtp.gmail.com', 587)
-    s.starttls() 
-    s.login(sender_email_id, sender_email_id_password)
-    message = "Warning! Motion Detected!"
-    s.sendmail(sender_email_id, receiver_email_id, message) 
-    s.quit()
-
-    filename = 'frames/' + dt + ".png"
-    cv2.imwrite(filename, frame)
+credentials = [sys.argv[1],sys.argv[2],sys.argv[3]]
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 text = ""
@@ -44,8 +23,28 @@ frames = []
 counter = 0
 
 threshold = 1
-
 counter_threshold = 1000
+
+sync = sp.Popen(["python3", "sync-photos.py"]+credentials)
+
+dt = datetime.datetime.now()
+minute = dt.strftime("%M")
+last_minute_sent = minute
+
+def notify(frame):
+    '''
+    saves the moving frame and notifies the user
+
+    arguments: 
+        frame : the photo to be saved
+        sender_email_id : The email id from which the notification email will be sent (e.g example_sender@gmail.com).
+        sender_email_id_password: The password of the sender's email id. 
+        receiver_email_id: The email id of the receiver of the notification email (e.g example_receiver@gmail.com).
+    '''
+    dt = datetime.datetime.now()
+    minute = dt.strftime("%M")
+    filename = 'frames/' + str(dt) + ".png"
+    cv2.imwrite(filename, frame)
 
 
 while(True):
@@ -73,7 +72,8 @@ while(True):
         #print(mean)
         if mean > threshold:
             text = "Motion Detected"
-            notify(frame,"example_sender@gmail.com","password","example_receiver@gmail.com")
+            #when movement is detected, it notifies the user
+            notify(frame)
         else:
             text = ""
     
@@ -89,6 +89,6 @@ while(True):
     
     counter = counter + 1
     
-
+sync.kill()
 cap.release()
 cv2.destroyAllWindows()
