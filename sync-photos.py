@@ -5,10 +5,11 @@ from email.mime.base import MIMEBase
 from email import encoders 
 import glob
 import os
+import sys 
 
-fromaddr = "tmail4319@gmail.com"
-toaddr = "tmail4319@gmail.com"
-password = 'test~password'
+fromaddr = sys.argv[1]
+toaddr = sys.argv[2]
+password = sys.argv[3]
 
 def delete(filename):
     os.system('rm -rf ' + filename)
