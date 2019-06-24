@@ -73,7 +73,7 @@ while(True):
         #print(mean)
         if mean > threshold:
             text = "Motion Detected"
-            notify(frame,"pavlosmakridis1322001@gmail.com","ussenterprise123","pavlosmakridis1322001@gmail.com")
+            notify(frame,"example_sender@gmail.com","password","example_receiver@gmail.com")
         else:
             text = ""
     
