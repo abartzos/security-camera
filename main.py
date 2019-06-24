@@ -6,8 +6,7 @@ You can do this from here: https://myaccount.google.com/lesssecureapps?pli=1
 import cv2
 import numpy as np
 import datetime
-
-import smtplib
+import os
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 text = ""
@@ -23,12 +22,7 @@ counter = 0
 threshold = 1
 counter_threshold = 1000
 
-email_sender = 'sender@gmail.com'
-password = 'email_password'
-email_receiver = 'receiver@gmail.com'
-
-
-def notify(frame,sender_email_id,sender_email_id_password,receiver_email_id):
+def notify(frame):
     '''
     saves the moving frame and notifies the user
 
@@ -38,17 +32,11 @@ def notify(frame,sender_email_id,sender_email_id_password,receiver_email_id):
         sender_email_id_password: The password of the sender's email id. 
         receiver_email_id: The email id of the receiver of the notification email (e.g example_receiver@gmail.com).
     '''
+    dt = str(datetime.datetime.now())
     filename = 'frames/' + dt + ".png"
     cv2.imwrite(filename, frame)
 
-    #Notifies user via email. Current method does NOT support attachments and makes video feed lag. 
-    s = smtplib.SMTP('smtp.gmail.com', 587)
-    s.starttls() 
-    s.login(sender_email_id, sender_email_id_password)
-    message = "Warning! Motion Detected!"
-    s.sendmail(sender_email_id, receiver_email_id, message) 
-    s.quit()
-
+    os.system("python3 email.py")
 
 while(True):
     ret, frame = cap.read()
@@ -76,7 +64,7 @@ while(True):
         if mean > threshold:
             text = "Motion Detected"
             #when movement is detected, it notifies the user
-            notify(frame,email_sender,password,email_receiver)
+            notify(frame)
         else:
             text = ""
     
