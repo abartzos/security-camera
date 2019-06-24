@@ -38,13 +38,17 @@ def notify(frame):
 
     arguments: 
         frame : the photo to be saved
-        sender_email_id : The email id from which the notification email will be sent (e.g example_sender@gmail.com).
+        
+        sender_email_id : The email id from which the notification 
+        email will be sent (e.g example_sender@gmail.com).
+        
         sender_email_id_password: The password of the sender's email id. 
-        receiver_email_id: The email id of the receiver of the notification email (e.g example_receiver@gmail.com).
+        
+        receiver_email_id: The email id of the receiver of the notification 
+        email (e.g example_receiver@gmail.com).
     '''
     dt = datetime.datetime.now()
-    minute = dt.strftime("%M")
-    filename = 'frames/' + str(dt) + ".png"
+    filename = 'frames/' + str(dt) + ".jpg"
     cv2.imwrite(filename, frame)
 
 

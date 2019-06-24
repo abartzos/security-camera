@@ -52,7 +52,7 @@ def send(filename):
     s.quit()
 
 while True:
-    photoList = glob.glob("frames/*.png")
+    photoList = glob.glob("frames/*.jpg")
     if photoList != []:
         for photo in photoList:
             send(photo)
