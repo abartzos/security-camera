@@ -6,7 +6,7 @@ You can do this from here: https://myaccount.google.com/lesssecureapps?pli=1
 import cv2
 import numpy as np
 import datetime
-import os
+import subprocess as sp
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 text = ""
@@ -22,6 +22,12 @@ counter = 0
 threshold = 1
 counter_threshold = 1000
 
+sync = sp.Popen(["python3", "sync-photos.py"])
+
+dt = datetime.datetime.now()
+minute = dt.strftime("%M")
+last_minute_sent = minute
+
 def notify(frame):
     '''
     saves the moving frame and notifies the user
@@ -32,11 +38,11 @@ def notify(frame):
         sender_email_id_password: The password of the sender's email id. 
         receiver_email_id: The email id of the receiver of the notification email (e.g example_receiver@gmail.com).
     '''
-    dt = str(datetime.datetime.now())
-    filename = 'frames/' + dt + ".png"
+    dt = datetime.datetime.now()
+    minute = dt.strftime("%M")
+    filename = 'frames/' + str(dt) + ".png"
     cv2.imwrite(filename, frame)
 
-    os.system("python3 send-mail.py")
 
 while(True):
     ret, frame = cap.read()
@@ -80,6 +86,6 @@ while(True):
     
     counter = counter + 1
     
-
+sync.kill()
 cap.release()
 cv2.destroyAllWindows()
