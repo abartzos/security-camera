@@ -9,4 +9,3 @@ to the computer running the software.
 - open-cv for Python3
 
 The motion-detection algorithm was built by [Pavlos Makridis](https://github.com/PavlosMak/Motion_Detection)
-and was modified to its current state.
